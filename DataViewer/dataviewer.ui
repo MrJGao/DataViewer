@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DataViewerClass</class>
+ <widget class="QMainWindow" name="DataViewerClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>839</width>
+    <height>572</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DataViewer</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>839</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpenProject"/>
+   <addaction name="actionSaveProject"/>
+   <addaction name="actionSaveAsProject"/>
+   <addaction name="separator"/>
+   <addaction name="actionAddVectorData"/>
+   <addaction name="actionAddRasterData"/>
+   <addaction name="separator"/>
+   <addaction name="actionAddWmsLayer"/>
+   <addaction name="actionAddWcsLayer"/>
+   <addaction name="actionAddWfsLayer"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionPan"/>
+   <addaction name="actionZoomIn"/>
+   <addaction name="actionZoomOut"/>
+   <addaction name="actionFullExtent"/>
+   <addaction name="actionZoomActual"/>
+   <addaction name="separator"/>
+   <addaction name="actionNewBookmark"/>
+   <addaction name="actionShowBookmarks"/>
+  </widget>
+  <action name="actionAddVectorData">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionAddOgrLayer.svg</normaloff>:/images/Resources/mActionAddOgrLayer.svg</iconset>
+   </property>
+   <property name="text">
+    <string>添加矢量数据</string>
+   </property>
+   <property name="toolTip">
+    <string>添加矢量数据</string>
+   </property>
+  </action>
+  <action name="actionAddRasterData">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionAddRasterLayer.svg</normaloff>:/images/Resources/mActionAddRasterLayer.svg</iconset>
+   </property>
+   <property name="text">
+    <string>添加栅格数据</string>
+   </property>
+   <property name="toolTip">
+    <string>添加栅格数据</string>
+   </property>
+  </action>
+  <action name="actionAddWmsLayer">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionAddWmsLayer.svg</normaloff>:/images/Resources/mActionAddWmsLayer.svg</iconset>
+   </property>
+   <property name="text">
+    <string>添加WMS图层</string>
+   </property>
+   <property name="toolTip">
+    <string>添加WMS图层</string>
+   </property>
+  </action>
+  <action name="actionAddWfsLayer">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionAddWfsLayer.svg</normaloff>:/images/Resources/mActionAddWfsLayer.svg</iconset>
+   </property>
+   <property name="text">
+    <string>添加WFS图层</string>
+   </property>
+   <property name="toolTip">
+    <string>添加WFS图层</string>
+   </property>
+  </action>
+  <action name="actionAddWcsLayer">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionAddWcsLayer.svg</normaloff>:/images/Resources/mActionAddWcsLayer.svg</iconset>
+   </property>
+   <property name="text">
+    <string>添加WCS图层</string>
+   </property>
+   <property name="toolTip">
+    <string>添加WCS图层</string>
+   </property>
+  </action>
+  <action name="actionZoomIn">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionZoomIn.svg</normaloff>:/images/Resources/mActionZoomIn.svg</iconset>
+   </property>
+   <property name="text">
+    <string>放大</string>
+   </property>
+   <property name="toolTip">
+    <string>放大</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionZoomOut.svg</normaloff>:/images/Resources/mActionZoomOut.svg</iconset>
+   </property>
+   <property name="text">
+    <string>缩小</string>
+   </property>
+   <property name="toolTip">
+    <string>缩小</string>
+   </property>
+  </action>
+  <action name="actionFullExtent">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionZoomFullExtent.svg</normaloff>:/images/Resources/mActionZoomFullExtent.svg</iconset>
+   </property>
+   <property name="text">
+    <string>全图显示</string>
+   </property>
+   <property name="toolTip">
+    <string>全图显示</string>
+   </property>
+  </action>
+  <action name="actionZoomActual">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionZoomActual.svg</normaloff>:/images/Resources/mActionZoomActual.svg</iconset>
+   </property>
+   <property name="text">
+    <string>实际比例显示</string>
+   </property>
+   <property name="toolTip">
+    <string>实际比例显示</string>
+   </property>
+  </action>
+  <action name="actionNewBookmark">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionNewBookmark.svg</normaloff>:/images/Resources/mActionNewBookmark.svg</iconset>
+   </property>
+   <property name="text">
+    <string>新建地图书签</string>
+   </property>
+   <property name="toolTip">
+    <string>新建地图书签</string>
+   </property>
+  </action>
+  <action name="actionShowBookmarks">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionShowBookmarks.svg</normaloff>:/images/Resources/mActionShowBookmarks.svg</iconset>
+   </property>
+   <property name="text">
+    <string>显示地图书签</string>
+   </property>
+   <property name="toolTip">
+    <string>显示地图书签</string>
+   </property>
+  </action>
+  <action name="actionPan">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionPan.svg</normaloff>:/images/Resources/mActionPan.svg</iconset>
+   </property>
+   <property name="text">
+    <string>漫游工具</string>
+   </property>
+   <property name="toolTip">
+    <string>漫游工具</string>
+   </property>
+  </action>
+  <action name="actionOpenProject">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionFileOpen.svg</normaloff>:/images/Resources/mActionFileOpen.svg</iconset>
+   </property>
+   <property name="text">
+    <string>打开工程</string>
+   </property>
+   <property name="toolTip">
+    <string>打开QGIS工程</string>
+   </property>
+  </action>
+  <action name="actionSaveProject">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionFileSave.svg</normaloff>:/images/Resources/mActionFileSave.svg</iconset>
+   </property>
+   <property name="text">
+    <string>保存工程</string>
+   </property>
+   <property name="toolTip">
+    <string>保存QGIS工程文件</string>
+   </property>
+  </action>
+  <action name="actionSaveAsProject">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionFileSaveAs.svg</normaloff>:/images/Resources/mActionFileSaveAs.svg</iconset>
+   </property>
+   <property name="text">
+    <string>另存工程</string>
+   </property>
+   <property name="toolTip">
+    <string>QGIS工程另存为</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="dataviewer.qrc"/>
+ </resources>
+ <connections/>
+</ui>

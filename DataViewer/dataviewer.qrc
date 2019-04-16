@@ -1,0 +1,25 @@
+<RCC>
+  <qresource prefix="images">
+    <file>Resources/mActionFileNew.svg</file>
+    <file>Resources/mActionFileOpen.svg</file>
+    <file>Resources/mActionFileSave.svg</file>
+    <file>Resources/mActionFileSaveAs.svg</file>
+    <file>Resources/mActionAddOgrLayer.svg</file>
+    <file>Resources/mActionAddRasterLayer.svg</file>
+    <file>Resources/mActionAddWcsLayer.svg</file>
+    <file>Resources/mActionAddWfsLayer.svg</file>
+    <file>Resources/mActionAddWmsLayer.svg</file>
+    <file>Resources/mActionMeasure.svg</file>
+    <file>Resources/mActionMeasureAngle.svg</file>
+    <file>Resources/mActionMeasureArea.svg</file>
+    <file>Resources/mActionNewBookmark.svg</file>
+    <file>Resources/mActionPan.svg</file>
+    <file>Resources/mActionShowBookmarks.svg</file>
+    <file>Resources/mActionZoomActual.svg</file>
+    <file>Resources/mActionZoomFullExtent.svg</file>
+    <file>Resources/mActionZoomIn.svg</file>
+    <file>Resources/mActionZoomLast.svg</file>
+    <file>Resources/mActionZoomNext.svg</file>
+    <file>Resources/mActionZoomOut.svg</file>
+  </qresource>
+</RCC>
