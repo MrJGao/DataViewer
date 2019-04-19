@@ -3,10 +3,12 @@
 
 #include <qgsapplication.h>
 
+
+
 int main(int argc, char *argv[])
 {
 	QgsApplication a(argc, argv, true);
-	QgsApplication::setPrefixPath("C:/OSGeo4W64/apps/qgis-dev", true); // !!!Õâ¸öÂ·¾¶²ÎÊıĞèÒª×ÔĞĞĞŞ¸Ä
+	QgsApplication::setPrefixPath("C:/OSGeo4W64/apps/qgis-dev", true); // !!!è¿™ä¸ªè·¯å¾„å‚æ•°éœ€è¦è‡ªè¡Œä¿®æ”¹
 	QgsApplication::initQgis();
 	DataViewer w;
 	w.show();

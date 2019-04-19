@@ -1,6 +1,8 @@
 #ifndef DATAVIEWER_H
 #define DATAVIEWER_H
 
+#define M_PI_2 3.1415926
+
 #include <QtWidgets/QMainWindow>
 #include "ui_dataviewer.h"
 #include "BookmarkDialog.h"
@@ -9,7 +11,7 @@
 
 class QgsMapTool;
 
-// Êı¾İ²é¿´Æ÷Ö÷´°¿Ú
+// æ•°æ®æŸ¥çœ‹å™¨ä¸»çª—å£
 class DataViewer : public QMainWindow
 {
 	Q_OBJECT
@@ -19,54 +21,68 @@ public:
 	~DataViewer();
 
 public slots:
-	// ´ò¿ª¹¤³Ì
+	// æ‰“å¼€å·¥ç¨‹
 	void on_actionOpenProject_triggered();
-	// ±£´æ¹¤³Ì
+	// ä¿å­˜å·¥ç¨‹
 	void on_actionSaveProject_triggered();
-	// Áí´æ¹¤³Ì
+	// å¦å­˜å·¥ç¨‹
 	void on_actionSaveAsProject_triggered();
 
-	// Ìí¼ÓÊ¸Á¿Êı¾İ
+	// æ·»åŠ çŸ¢é‡æ•°æ®
 	void on_actionAddVectorData_triggered();
-	// Ìí¼ÓÕ¤¸ñÊı¾İ
+	// æ·»åŠ æ …æ ¼æ•°æ®
 	void on_actionAddRasterData_triggered();
-	// Ìí¼ÓWMSÍ¼²ã
+	// æ·»åŠ WMSå›¾å±‚
 	void on_actionAddWmsLayer_triggered();
-	// Ìí¼ÓWFSÍ¼²ã
+	// æ·»åŠ WFSå›¾å±‚
 	void on_actionAddWfsLayer_triggered();
-	// Ìí¼ÓWCSÍ¼²ã
+	// æ·»åŠ WCSå›¾å±‚
 	void on_actionAddWcsLayer_triggered();
 
-	// Ê¹ÓÃµØÍ¼·Å´ó¹¤¾ß
+	// ä½¿ç”¨åœ°å›¾æ”¾å¤§å·¥å…·
 	void on_actionZoomIn_triggered();
-	// Ê¹ÓÃµØÍ¼ËõĞ¡¹¤¾ß
+	// ä½¿ç”¨åœ°å›¾ç¼©å°å·¥å…·
 	void on_actionZoomOut_triggered();
-	// Ê¹ÓÃµØÍ¼ÂşÓÎ¹¤¾ß
+	// ä½¿ç”¨åœ°å›¾æ¼«æ¸¸å·¥å…·
 	void on_actionPan_triggered();
-	// Ëõ·ÅµØÍ¼µ½Êµ¼Ê±ÈÀı
+	// ç¼©æ”¾åœ°å›¾åˆ°å®é™…æ¯”ä¾‹
 	void on_actionZoomActual_triggered();
-	// Ëõ·ÅµØÍ¼µ½È«Í¼·¶Î§
+	// ç¼©æ”¾åœ°å›¾åˆ°å…¨å›¾èŒƒå›´
 	void on_actionFullExtent_triggered();
-	// ´´½¨ĞÂµÄµØÍ¼ÊéÇ©
+	// åœ°å›¾é‡æµ‹å·¥å…·
+	void on_actionMeasureLine_triggered();
+	void on_actionMeasureArea_triggered();
+	void on_actionMeasureAngle_triggered();
+
+	// åˆ›å»ºæ–°çš„åœ°å›¾ä¹¦ç­¾
 	void on_actionNewBookmark_triggered();
-	// ÏÔÊ¾µØÍ¼ÊéÇ©¹ÜÀíÆ÷
+	// æ˜¾ç¤ºåœ°å›¾ä¹¦ç­¾ç®¡ç†å™¨
 	void on_actionShowBookmarks_triggered();
+
+	// å›¾å±‚ç®¡ç†å™¨
+	void on_actionLayerTreeControl_treggered();
+	// é¹°çœ¼å›¾
+	void on_actionOverviewMap_triggered();
 
 private:
 	Ui::DataViewerClass ui;
 
-	// µØÍ¼»­²¼
+	// åœ°å›¾ç”»å¸ƒ
 	QgsMapCanvas* m_mapCanvas;
-	// Í¼²ãÁĞ±í
+	// å›¾å±‚åˆ—è¡¨
 	QList<QgsMapLayer*> m_layerList;
 
-	// µØÍ¼Ëõ·Å¹¤¾ß
+	// åœ°å›¾ç¼©æ”¾å·¥å…·
 	QgsMapTool* m_zoomInTool;
 	QgsMapTool* m_zoomOutTool;
-	// µØÍ¼ä¯ÀÀ¹¤¾ß
+	// åœ°å›¾æµè§ˆå·¥å…·
 	QgsMapTool* m_panTool;
 
-	// ÊéÇ©´°Ìå
+	// åœ°å›¾é‡æµ‹å·¥å…·
+	QgsMapTool* m_measureLineTool;
+	QgsMapTool* m_measureAreaTool;
+
+	// ä¹¦ç­¾çª—ä½“
 	BookMarkDialog* m_bookmarkDlg;
 };
 

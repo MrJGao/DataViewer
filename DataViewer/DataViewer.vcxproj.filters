@@ -59,6 +59,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_BookmarkDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="MeasureTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MeasureTool.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MeasureTool.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="dataviewer.h">
@@ -74,6 +83,9 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="BookmarkDialog.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MeasureTool.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

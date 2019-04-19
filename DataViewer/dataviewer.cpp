@@ -3,6 +3,7 @@
 #include <qmessagebox.h>
 #include <qinputdialog.h>
 #include <QDomDocument>
+#include "MeasureTool.h"
 
 #include <qgsvectorlayer.h>
 #include <qgsrasterlayer.h>
@@ -22,6 +23,8 @@ DataViewer::DataViewer(QWidget *parent)
 	m_zoomInTool = new QgsMapToolZoom(m_mapCanvas, false);
 	m_zoomOutTool = new QgsMapToolZoom(m_mapCanvas, true);
 	m_panTool = new QgsMapToolPan(m_mapCanvas);
+	m_measureLineTool = new MeasureTool(m_mapCanvas, false);
+	m_measureAreaTool = new MeasureTool(m_mapCanvas, true);
 
 	m_bookmarkDlg = new BookMarkDialog(m_mapCanvas);
 }
@@ -33,7 +36,7 @@ DataViewer::~DataViewer()
 
 void DataViewer::on_actionOpenProject_triggered()
 {
-	QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("Ñ¡Ôñ¹¤³ÌÎÄ¼þ"),
+	QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("é€‰æ‹©å·¥ç¨‹æ–‡ä»¶"),
 		"", "QGIS project (*.qgz)");
 	QFileInfo fi(filename);
 	if (!fi.exists()) { return; }
@@ -43,7 +46,7 @@ void DataViewer::on_actionOpenProject_triggered()
 
 void DataViewer::on_actionSaveProject_triggered()
 {
-	QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("¹¤³Ì±£´æÎª"),
+	QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("å·¥ç¨‹ä¿å­˜ä¸º"),
 		"", "QGIS project (*.qgz)");
 	QFile file(filename);
 	file.open(QIODevice::WriteOnly);
@@ -59,10 +62,10 @@ void DataViewer::on_actionSaveAsProject_triggered()
 
 void DataViewer::on_actionAddVectorData_triggered()
 {
-	QString layerPath = QFileDialog::getOpenFileName(this, QStringLiteral("Ñ¡ÔñÊ¸Á¿Êý¾Ý"), "", "shapefile (*.shp)");
+	QString layerPath = QFileDialog::getOpenFileName(this, QStringLiteral("é€‰æ‹©çŸ¢é‡æ•°æ®"), "", "shapefile (*.shp)");
 	QFileInfo fi(layerPath);
 	if (!fi.exists()) { return; }
-	QString layerBaseName = fi.baseName(); // Í¼²ãÃû³Æ
+	QString layerBaseName = fi.baseName(); // å›¾å±‚åç§°
 
 	QgsVectorLayer* vecLayer = new QgsVectorLayer(layerPath, layerBaseName);
 	if (!vecLayer) { return; }
@@ -79,10 +82,10 @@ void DataViewer::on_actionAddVectorData_triggered()
 
 void DataViewer::on_actionAddRasterData_triggered()
 {
-	QString layerPath = QFileDialog::getOpenFileName(this, QStringLiteral("Ñ¡ÔñÕ¤¸ñÊý¾Ý"), "", "Image (*.img *.tif *.tiff)");
+	QString layerPath = QFileDialog::getOpenFileName(this, QStringLiteral("é€‰æ‹©æ …æ ¼æ•°æ®"), "", "Image (*.img *.tif *.tiff)");
 	QFileInfo fi(layerPath);
 	if (!fi.exists()) { return; }
-	QString layerBaseName = fi.baseName(); // Í¼²ãÃû³Æ
+	QString layerBaseName = fi.baseName(); // å›¾å±‚åç§°
 
 	QgsRasterLayer* vecLayer = new QgsRasterLayer(layerPath, layerBaseName);
 	if (!vecLayer) { return; }
@@ -137,10 +140,24 @@ void DataViewer::on_actionFullExtent_triggered()
 	m_mapCanvas->zoomToFullExtent();
 }
 
+void DataViewer::on_actionMeasureLine_triggered()
+{
+	m_mapCanvas->setMapTool(m_measureLineTool);
+}
+
+void DataViewer::on_actionMeasureArea_triggered()
+{
+	m_mapCanvas->setMapTool(m_measureAreaTool);
+}
+
+void DataViewer::on_actionMeasureAngle_triggered()
+{
+}
+
 void DataViewer::on_actionNewBookmark_triggered()
 {
 	bool ok;
-	QString text = QInputDialog::getText(this, QStringLiteral("ÊäÈëÊéÇ©Ãû³Æ"), "", QLineEdit::Normal, "", &ok);
+	QString text = QInputDialog::getText(this, QStringLiteral("è¾“å…¥ä¹¦ç­¾åç§°"), "", QLineEdit::Normal, "", &ok);
 	if (ok && !text.isEmpty())
 	{
 		m_bookmarkDlg->add(text, m_mapCanvas->extent());
@@ -151,6 +168,33 @@ void DataViewer::on_actionShowBookmarks_triggered()
 {
 	m_bookmarkDlg->show();
 }
+
+void DataViewer::on_actionLayerTreeControl_treggered()
+{
+	// æ‰“å¼€å›¾å±‚ç®¡ç†å™¨
+	if (ui.LayerTreeControl->isVisible())
+	{
+		ui.LayerTreeControl->setFocus();
+	}
+	else
+	{
+		ui.LayerTreeControl->show();
+	}
+}
+
+void DataViewer::on_actionOverviewMap_triggered()
+{
+	// æ‰“å¼€é¹°çœ¼å›¾
+	if (ui.OverviewMap->isVisible())
+	{
+		ui.OverviewMap->setFocus();
+	}
+	else
+	{
+		ui.OverviewMap->show();
+	}
+}
+
 
 
 

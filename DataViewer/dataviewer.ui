@@ -20,9 +20,58 @@
      <x>0</x>
      <y>0</y>
      <width>839</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNewProject"/>
+    <addaction name="actionOpenProject"/>
+    <addaction name="actionSaveProject"/>
+    <addaction name="actionSaveAsProject"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>数据</string>
+    </property>
+    <widget class="QMenu" name="menuMeasure">
+     <property name="title">
+      <string>测量</string>
+     </property>
+     <addaction name="actionMeasureLine"/>
+     <addaction name="actionMeasureArea"/>
+     <addaction name="actionMeasureAngle"/>
+    </widget>
+    <addaction name="actionAddVectorData"/>
+    <addaction name="actionAddRasterData"/>
+    <addaction name="actionAddWmsLayer"/>
+    <addaction name="actionAddWfsLayer"/>
+    <addaction name="actionAddWcsLayer"/>
+    <addaction name="separator"/>
+    <addaction name="menuMeasure"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>书签</string>
+    </property>
+    <addaction name="actionNewBookmark"/>
+    <addaction name="actionShowBookmarks"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>视图</string>
+    </property>
+    <addaction name="actionLayerTreeControl"/>
+    <addaction name="actionOverviewMap"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -61,6 +110,30 @@
    <addaction name="separator"/>
    <addaction name="actionNewBookmark"/>
    <addaction name="actionShowBookmarks"/>
+   <addaction name="separator"/>
+   <addaction name="actionMeasureLine"/>
+   <addaction name="actionMeasureArea"/>
+  </widget>
+  <widget class="QDockWidget" name="LayerTreeControl">
+   <property name="windowTitle">
+    <string>图层管理器</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
+  <widget class="QDockWidget" name="OverviewMap">
+   <property name="floating">
+    <bool>false</bool>
+   </property>
+   <property name="windowTitle">
+    <string>鹰眼图</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2"/>
   </widget>
   <action name="actionAddVectorData">
    <property name="icon">
@@ -240,6 +313,77 @@
    </property>
    <property name="toolTip">
     <string>QGIS工程另存为</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="actionNewProject">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionFileNew.svg</normaloff>:/images/Resources/mActionFileNew.svg</iconset>
+   </property>
+   <property name="text">
+    <string>新建工程</string>
+   </property>
+   <property name="toolTip">
+    <string>新建工程</string>
+   </property>
+  </action>
+  <action name="actionOverviewMap">
+   <property name="text">
+    <string>鹰眼图</string>
+   </property>
+   <property name="toolTip">
+    <string>鹰眼图</string>
+   </property>
+  </action>
+  <action name="actionLayerTreeControl">
+   <property name="text">
+    <string>图层管理器</string>
+   </property>
+   <property name="toolTip">
+    <string>图层管理器</string>
+   </property>
+  </action>
+  <action name="actionMeasureLine">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionMeasure.svg</normaloff>:/images/Resources/mActionMeasure.svg</iconset>
+   </property>
+   <property name="text">
+    <string>测量线段</string>
+   </property>
+  </action>
+  <action name="actionMeasureArea">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionMeasureArea.svg</normaloff>:/images/Resources/mActionMeasureArea.svg</iconset>
+   </property>
+   <property name="text">
+    <string>测量面积</string>
+   </property>
+   <property name="toolTip">
+    <string>测量面积</string>
+   </property>
+  </action>
+  <action name="actionMeasureAngle">
+   <property name="icon">
+    <iconset resource="dataviewer.qrc">
+     <normaloff>:/images/Resources/mActionMeasureAngle.svg</normaloff>:/images/Resources/mActionMeasureAngle.svg</iconset>
+   </property>
+   <property name="text">
+    <string>测量角度</string>
+   </property>
+   <property name="toolTip">
+    <string>测量角度</string>
+   </property>
+  </action>
+  <action name="actionMeasure">
+   <property name="text">
+    <string>测量</string>
    </property>
   </action>
  </widget>
