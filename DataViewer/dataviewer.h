@@ -7,9 +7,11 @@
 #include "ui_dataviewer.h"
 #include "BookmarkDialog.h"
 
-#include <qgsmapcanvas.h>
-
+class QgsMapCanvas;
 class QgsMapTool;
+class QgsLayerTreeView;
+class QgsLayerTreeMapCanvasBridge;
+class QgsMapLayer;
 
 // 数据查看器主窗口
 class DataViewer : public QMainWindow
@@ -72,6 +74,10 @@ private:
 	// 图层列表
 	QList<QgsMapLayer*> m_layerList;
 
+	// 图层管理器
+	QgsLayerTreeView* m_layerTreeView;
+	QgsLayerTreeMapCanvasBridge* m_layerTreeCanvasBridge;
+	
 	// 地图缩放工具
 	QgsMapTool* m_zoomInTool;
 	QgsMapTool* m_zoomOutTool;
@@ -84,6 +90,11 @@ private:
 
 	// 书签窗体
 	BookMarkDialog* m_bookmarkDlg;
+
+
+	// 初始化图层管理器
+	void initLayerTreeView();
+
 };
 
 

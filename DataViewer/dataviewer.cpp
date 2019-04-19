@@ -5,6 +5,12 @@
 #include <QDomDocument>
 #include "MeasureTool.h"
 
+#include <qgsmapcanvas.h>
+#include <qgslayertreeview.h>
+#include <qgslayertreemodel.h>
+#include <qgslayertreemapcanvasbridge.h>
+#include <qgslayertreeviewdefaultactions.h>
+#include <qgslayertree.h>
 #include <qgsvectorlayer.h>
 #include <qgsrasterlayer.h>
 #include <qgsmaptoolzoom.h>
@@ -17,15 +23,22 @@ DataViewer::DataViewer(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	// 初始化地图画布
 	m_mapCanvas = new QgsMapCanvas();
 	this->setCentralWidget(m_mapCanvas);
 
+	// 初始化图层管理器
+	m_layerTreeView = new QgsLayerTreeView(this);
+	initLayerTreeView();
+
+	// 初始化地图工具
 	m_zoomInTool = new QgsMapToolZoom(m_mapCanvas, false);
 	m_zoomOutTool = new QgsMapToolZoom(m_mapCanvas, true);
 	m_panTool = new QgsMapToolPan(m_mapCanvas);
 	m_measureLineTool = new MeasureTool(m_mapCanvas, false);
 	m_measureAreaTool = new MeasureTool(m_mapCanvas, true);
 
+	// 初始化书签窗口
 	m_bookmarkDlg = new BookMarkDialog(m_mapCanvas);
 }
 
@@ -37,22 +50,18 @@ DataViewer::~DataViewer()
 void DataViewer::on_actionOpenProject_triggered()
 {
 	QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("选择工程文件"),
-		"", "QGIS project (*.qgz)");
+		"", "QGIS project (*.qgs)");
 	QFileInfo fi(filename);
 	if (!fi.exists()) { return; }
-	QDomDocument domDoc(filename);
-	m_mapCanvas->readProject(domDoc);
+	QgsProject::instance()->read(filename);
 }
 
 void DataViewer::on_actionSaveProject_triggered()
 {
 	QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("工程保存为"),
-		"", "QGIS project (*.qgz)");
-	QFile file(filename);
-	file.open(QIODevice::WriteOnly);
-	file.close();
-	QDomDocument domDoc(filename);
-	m_mapCanvas->writeProject(domDoc);
+		"", "QGIS project (*.qgs)");
+	QFileInfo file(filename);
+	QgsProject::instance()->write(filename);
 }
 
 void DataViewer::on_actionSaveAsProject_triggered()
@@ -75,7 +84,7 @@ void DataViewer::on_actionAddVectorData_triggered()
 		return;
 	}
 	m_layerList << vecLayer;
-	m_mapCanvas->setLayers(m_layerList);
+	QgsProject::instance()->addMapLayers(m_layerList);
 	m_mapCanvas->setExtent(vecLayer->extent());
 	m_mapCanvas->refresh();
 }
@@ -95,7 +104,7 @@ void DataViewer::on_actionAddRasterData_triggered()
 		return;
 	}
 	m_layerList << vecLayer;
-	m_mapCanvas->setLayers(m_layerList);
+	QgsProject::instance()->addMapLayers(m_layerList);
 	m_mapCanvas->setExtent(vecLayer->extent());
 	m_mapCanvas->refresh();
 }
@@ -194,6 +203,53 @@ void DataViewer::on_actionOverviewMap_triggered()
 		ui.OverviewMap->show();
 	}
 }
+
+void DataViewer::initLayerTreeView()
+{
+	QgsLayerTreeModel* model = new QgsLayerTreeModel(QgsProject::instance()->layerTreeRoot(), this);
+	qDebug() << QgsProject::instance()->layerTreeRoot();
+	model->setFlag(QgsLayerTreeModel::AllowNodeReorder);
+	model->setFlag(QgsLayerTreeModel::AllowNodeRename);
+	model->setFlag(QgsLayerTreeModel::AllowNodeChangeVisibility);
+	model->setFlag(QgsLayerTreeModel::ShowLegendAsTree);
+	model->setFlag(QgsLayerTreeModel::UseEmbeddedWidgets);
+	model->setAutoCollapseLegendNodes(10);
+	m_layerTreeView->setModel(model);
+
+	m_layerTreeCanvasBridge = new QgsLayerTreeMapCanvasBridge(QgsProject::instance()->layerTreeRoot(), m_mapCanvas, this);
+	connect(QgsProject::instance(), SIGNAL(writeProject(QDomDocument&)), m_layerTreeCanvasBridge, SLOT(writeProject(QDomDocument&)));
+	connect(QgsProject::instance(), SIGNAL(readProject(QDomDocument)), m_layerTreeCanvasBridge, SLOT(readProject(QDomDocument)));
+
+	// 添加组命令
+	QAction* actionAddGroup = new QAction(QStringLiteral("添加组"), this);
+	actionAddGroup->setToolTip(QStringLiteral("添加组"));
+	connect(actionAddGroup, &QAction::triggered, m_layerTreeView->defaultActions(), &QgsLayerTreeViewDefaultActions::addGroup);
+
+	// 扩展和收缩
+	QAction *actionExpandAll = new QAction(tr("Expand All"), this);
+	actionExpandAll->setToolTip(tr("Expand All"));
+	connect(actionExpandAll, &QAction::triggered, m_layerTreeView, &QgsLayerTreeView::expandAllNodes);
+	QAction *actionCollapseAll = new QAction(tr("Collapse All"), this);
+	actionCollapseAll->setToolTip(tr("Collapse All"));
+	connect(actionCollapseAll, &QAction::triggered, m_layerTreeView, &QgsLayerTreeView::collapseAllNodes);
+
+	QToolBar* toolbar = new QToolBar();
+	toolbar->addAction(actionAddGroup);
+	toolbar->addAction(actionExpandAll);
+	toolbar->addAction(actionCollapseAll);
+
+	QVBoxLayout* vBoxLayout = new QVBoxLayout();
+	vBoxLayout->setMargin(0);
+	vBoxLayout->setContentsMargins(0,0,0,0);
+	vBoxLayout->setSpacing(0);
+	vBoxLayout->addWidget(toolbar);
+	vBoxLayout->addWidget(m_layerTreeView);
+
+	QWidget* w = new QWidget;
+	w->setLayout(vBoxLayout);
+	this->ui.LayerTreeControl->setWidget(w);
+}
+
 
 
 
