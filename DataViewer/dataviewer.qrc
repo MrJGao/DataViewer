@@ -1,5 +1,10 @@
 <RCC>
   <qresource prefix="images">
+    <file>Resources/mActionRemoveLayer.svg</file>
+    <file>Resources/mActionAddGroup.svg</file>
+    <file>Resources/mActionCollapseTree.svg</file>
+    <file>Resources/mActionExpandTree.svg</file>
+    <file>Resources/mActionShowAllLayers.svg</file>
     <file>Resources/mActionFileNew.svg</file>
     <file>Resources/mActionFileOpen.svg</file>
     <file>Resources/mActionFileSave.svg</file>

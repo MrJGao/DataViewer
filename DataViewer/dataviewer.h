@@ -66,13 +66,14 @@ public slots:
 	// 鹰眼图
 	void on_actionOverviewMap_triggered();
 
+	// 移除图层
+	void removeLayer();
+
 private:
 	Ui::DataViewerClass ui;
 
 	// 地图画布
 	QgsMapCanvas* m_mapCanvas;
-	// 图层列表
-	QList<QgsMapLayer*> m_layerList;
 
 	// 图层管理器
 	QgsLayerTreeView* m_layerTreeView;

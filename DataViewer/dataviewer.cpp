@@ -71,41 +71,49 @@ void DataViewer::on_actionSaveAsProject_triggered()
 
 void DataViewer::on_actionAddVectorData_triggered()
 {
-	QString layerPath = QFileDialog::getOpenFileName(this, QStringLiteral("选择矢量数据"), "", "shapefile (*.shp)");
-	QFileInfo fi(layerPath);
-	if (!fi.exists()) { return; }
-	QString layerBaseName = fi.baseName(); // 图层名称
-
-	QgsVectorLayer* vecLayer = new QgsVectorLayer(layerPath, layerBaseName);
-	if (!vecLayer) { return; }
-	if (!vecLayer->isValid())
+	QStringList layerPathList = QFileDialog::getOpenFileNames(this, QStringLiteral("选择矢量数据"), "", "shapefile (*.shp)");
+	QList<QgsMapLayer*> layerList;
+	for each (QString layerPath in layerPathList)
 	{
-		QMessageBox::information(0, "", "layer is invalid");
-		return;
+		QFileInfo fi(layerPath);
+		if (!fi.exists()) { return; }
+		QString layerBaseName = fi.baseName(); // 图层名称
+
+		QgsVectorLayer* vecLayer = new QgsVectorLayer(layerPath, layerBaseName);
+		if (!vecLayer) { return; }
+		if (!vecLayer->isValid())
+		{
+			QMessageBox::information(0, "", "layer is invalid");
+			return;
+		}
+		layerList << vecLayer;
 	}
-	m_layerList << vecLayer;
-	QgsProject::instance()->addMapLayers(m_layerList);
-	m_mapCanvas->setExtent(vecLayer->extent());
+	
+	QgsProject::instance()->addMapLayers(layerList);
 	m_mapCanvas->refresh();
 }
 
 void DataViewer::on_actionAddRasterData_triggered()
 {
-	QString layerPath = QFileDialog::getOpenFileName(this, QStringLiteral("选择栅格数据"), "", "Image (*.img *.tif *.tiff)");
-	QFileInfo fi(layerPath);
-	if (!fi.exists()) { return; }
-	QString layerBaseName = fi.baseName(); // 图层名称
-
-	QgsRasterLayer* vecLayer = new QgsRasterLayer(layerPath, layerBaseName);
-	if (!vecLayer) { return; }
-	if (!vecLayer->isValid())
+	QStringList layerPathList = QFileDialog::getOpenFileNames(this, QStringLiteral("选择栅格数据"), "", "Image (*.img *.tif *.tiff)");
+	QList<QgsMapLayer*> layerList;
+	for each (QString layerPath in layerPathList)
 	{
-		QMessageBox::information(0, "", "layer is invalid");
-		return;
+		QFileInfo fi(layerPath);
+		if (!fi.exists()) { return; }
+		QString layerBaseName = fi.baseName(); // 图层名称
+
+		QgsRasterLayer* rasterLayer = new QgsRasterLayer(layerPath, layerBaseName);
+		if (!rasterLayer) { return; }
+		if (!rasterLayer->isValid())
+		{
+			QMessageBox::information(0, "", "layer is invalid");
+			return;
+		}
+		layerList << rasterLayer;
 	}
-	m_layerList << vecLayer;
-	QgsProject::instance()->addMapLayers(m_layerList);
-	m_mapCanvas->setExtent(vecLayer->extent());
+
+	QgsProject::instance()->addMapLayers(layerList);
 	m_mapCanvas->refresh();
 }
 
@@ -204,6 +212,16 @@ void DataViewer::on_actionOverviewMap_triggered()
 	}
 }
 
+void DataViewer::removeLayer()
+{
+	if (!m_layerTreeView) { return; }
+
+	QModelIndexList indexes;
+	while ((indexes = m_layerTreeView->selectionModel()->selectedRows()).size()) {
+		m_layerTreeView->model()->removeRow(indexes.first().row());
+	}
+}
+
 void DataViewer::initLayerTreeView()
 {
 	QgsLayerTreeModel* model = new QgsLayerTreeModel(QgsProject::instance()->layerTreeRoot(), this);
@@ -222,21 +240,32 @@ void DataViewer::initLayerTreeView()
 
 	// 添加组命令
 	QAction* actionAddGroup = new QAction(QStringLiteral("添加组"), this);
+	actionAddGroup->setIcon(QIcon(QStringLiteral(":/images/Resources/mActionAddGroup.svg")));
 	actionAddGroup->setToolTip(QStringLiteral("添加组"));
 	connect(actionAddGroup, &QAction::triggered, m_layerTreeView->defaultActions(), &QgsLayerTreeViewDefaultActions::addGroup);
 
-	// 扩展和收缩
-	QAction *actionExpandAll = new QAction(tr("Expand All"), this);
-	actionExpandAll->setToolTip(tr("Expand All"));
+	// 扩展和收缩图层树
+	QAction* actionExpandAll = new QAction(QStringLiteral("展开所有组"), this);
+	actionExpandAll->setIcon(QIcon(QStringLiteral(":/images/Resources/mActionExpandTree.svg")));
+	actionExpandAll->setToolTip(QStringLiteral("展开所有组"));
 	connect(actionExpandAll, &QAction::triggered, m_layerTreeView, &QgsLayerTreeView::expandAllNodes);
-	QAction *actionCollapseAll = new QAction(tr("Collapse All"), this);
-	actionCollapseAll->setToolTip(tr("Collapse All"));
+	QAction* actionCollapseAll = new QAction(QStringLiteral("折叠所有组"), this);
+	actionCollapseAll->setIcon(QIcon(QStringLiteral(":/images/Resources/mActionCollapseTree.svg")));
+	actionCollapseAll->setToolTip(QStringLiteral("折叠所有组"));
 	connect(actionCollapseAll, &QAction::triggered, m_layerTreeView, &QgsLayerTreeView::collapseAllNodes);
 
+	// 移除图层
+	QAction* actionRemoveLayer = new QAction(QStringLiteral("移除图层/组"));
+	actionRemoveLayer->setIcon(QIcon(QStringLiteral(":/images/Resources/mActionRemoveLayer.svg")));
+	actionRemoveLayer->setToolTip(QStringLiteral("移除图层/组"));
+	connect(actionRemoveLayer, &QAction::triggered, this, &DataViewer::removeLayer);
+
 	QToolBar* toolbar = new QToolBar();
+	toolbar->setIconSize(QSize(16, 16));
 	toolbar->addAction(actionAddGroup);
 	toolbar->addAction(actionExpandAll);
 	toolbar->addAction(actionCollapseAll);
+	toolbar->addAction(actionRemoveLayer);
 
 	QVBoxLayout* vBoxLayout = new QVBoxLayout();
 	vBoxLayout->setMargin(0);
