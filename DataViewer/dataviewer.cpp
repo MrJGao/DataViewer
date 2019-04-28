@@ -11,6 +11,7 @@
 #include <qgslayertreemapcanvasbridge.h>
 #include <qgslayertreeviewdefaultactions.h>
 #include <qgslayertree.h>
+#include <qgsmapoverviewcanvas.h>
 #include <qgsvectorlayer.h>
 #include <qgsrasterlayer.h>
 #include <qgsmaptoolzoom.h>
@@ -30,6 +31,10 @@ DataViewer::DataViewer(QWidget *parent)
 	// 初始化图层管理器
 	m_layerTreeView = new QgsLayerTreeView(this);
 	initLayerTreeView();
+
+	// 初始化鹰眼图控件
+	m_overviewCanvas = new QgsMapOverviewCanvas(this, m_mapCanvas);
+	initMapOverviewCanvas();
 
 	// 初始化地图工具
 	m_zoomInTool = new QgsMapToolZoom(m_mapCanvas, false);
@@ -277,6 +282,24 @@ void DataViewer::initLayerTreeView()
 	QWidget* w = new QWidget;
 	w->setLayout(vBoxLayout);
 	this->ui.LayerTreeControl->setWidget(w);
+}
+
+void DataViewer::initMapOverviewCanvas()
+{
+	m_overviewCanvas->setBackgroundColor(QColor(255, 255, 255));
+	QVBoxLayout* vBoxLayout = new QVBoxLayout();
+	vBoxLayout->setMargin(0);
+	vBoxLayout->setContentsMargins(0, 0, 0, 0);
+	vBoxLayout->setSpacing(0);
+	vBoxLayout->addWidget(m_overviewCanvas);
+	
+	QWidget* w = new QWidget;
+	w->setLayout(vBoxLayout);
+	w->setMinimumHeight(100);
+
+	this->ui.OverviewMap->setWidget(w);
+	m_layerTreeCanvasBridge->setOverviewCanvas(m_overviewCanvas);
+	m_overviewCanvas->setLayers(m_mapCanvas->layers());
 }
 
 

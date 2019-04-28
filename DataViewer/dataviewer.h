@@ -12,6 +12,7 @@ class QgsMapTool;
 class QgsLayerTreeView;
 class QgsLayerTreeMapCanvasBridge;
 class QgsMapLayer;
+class QgsMapOverviewCanvas;
 
 // 数据查看器主窗口
 class DataViewer : public QMainWindow
@@ -73,29 +74,34 @@ private:
 	Ui::DataViewerClass ui;
 
 	// 地图画布
-	QgsMapCanvas* m_mapCanvas;
+	QgsMapCanvas* m_mapCanvas = nullptr;
 
 	// 图层管理器
-	QgsLayerTreeView* m_layerTreeView;
-	QgsLayerTreeMapCanvasBridge* m_layerTreeCanvasBridge;
+	QgsLayerTreeView* m_layerTreeView = nullptr;
+	QgsLayerTreeMapCanvasBridge* m_layerTreeCanvasBridge = nullptr;
 	
+	// 鹰眼图控件
+	QgsMapOverviewCanvas* m_overviewCanvas = nullptr;
+
 	// 地图缩放工具
-	QgsMapTool* m_zoomInTool;
-	QgsMapTool* m_zoomOutTool;
+	QgsMapTool* m_zoomInTool = nullptr;
+	QgsMapTool* m_zoomOutTool = nullptr;
 	// 地图浏览工具
-	QgsMapTool* m_panTool;
+	QgsMapTool* m_panTool = nullptr;
 
 	// 地图量测工具
-	QgsMapTool* m_measureLineTool;
-	QgsMapTool* m_measureAreaTool;
+	QgsMapTool* m_measureLineTool = nullptr;
+	QgsMapTool* m_measureAreaTool = nullptr;
 
 	// 书签窗体
-	BookMarkDialog* m_bookmarkDlg;
+	BookMarkDialog* m_bookmarkDlg = nullptr;
 
 
 	// 初始化图层管理器
 	void initLayerTreeView();
 
+	// 初始化鹰眼图控件
+	void initMapOverviewCanvas();
 };
 
 
